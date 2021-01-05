@@ -1,0 +1,47 @@
+﻿<Page x:Class="Practika2.Views.Pages.CreatePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Practika2.Views.Pages"
+      mc:Ignorable="d" 
+	  xmlns:vm="clr-namespace:Practika2.ViewModels"
+      d:DesignHeight="160" d:DesignWidth="400"
+      Title="CreatePage">
+	<Page.DataContext>
+		<vm:CreateViewModel/>
+	</Page.DataContext>
+	<Page.Resources>
+		<Style x:Key="DefaultTextBox" TargetType="TextBox">
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="Height" Value="18"/>
+		</Style>
+		<Style x:Key="DefaultButton" TargetType="Button">
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="FontSize" Value="20"/>
+		</Style>
+		<Style x:Key="DefaultTextBlock" TargetType="TextBlock">
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="Height" Value="18"/>
+		</Style>
+	</Page.Resources>
+	<StackPanel>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="150"/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<StackPanel Grid.Column="0">
+				<TextBlock Style="{StaticResource DefaultTextBlock}" Text="Name:"/>
+				<TextBlock Style="{StaticResource DefaultTextBlock}" Text="SurName:"/>
+				<TextBlock Style="{StaticResource DefaultTextBlock}" Text="Age:"/>
+			</StackPanel>
+			<StackPanel Grid.Column="1">
+				<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}"/>
+				<TextBox Text="{Binding SurName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}"/>
+				<TextBox Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource DefaultTextBox}"/>
+			</StackPanel>
+		</Grid>
+		<Button Style="{StaticResource DefaultButton}" Content="Создать" Command="{Binding CreateNewPersonEndCommand}"/>
+	</StackPanel>
+</Page>

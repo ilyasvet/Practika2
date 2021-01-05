@@ -1,0 +1,85 @@
+﻿<Window x:Class="Practika2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:fa="http://schemas.fontawesome.com/icons/"
+		xmlns:vm="clr-namespace:Practika2.ViewModels"
+        xmlns:local="clr-namespace:Practika2"
+        mc:Ignorable="d"
+        Title="{Binding Title}" Height="450" Width="800">
+	<Window.Resources>
+		<Style x:Key="DefaultButton" TargetType="Button">
+			<Setter Property="Margin" Value="10"/>
+			<Setter Property="FontSize" Value="20"/>
+		</Style>
+		<Style x:Key="ButtonDelete" BasedOn="{StaticResource DefaultButton}" TargetType="Button">
+			<Setter Property="Background" Value="Red"/>
+			<Setter Property="Content" Value="Удалить"/>
+		</Style>
+		<Style x:Key="ButtonCreate" BasedOn="{StaticResource DefaultButton}" TargetType="Button">
+			<Setter Property="Background" Value="Green"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Content" Value="Добавить"/>
+		</Style>
+	</Window.Resources>
+	<Window.InputBindings>
+		<KeyBinding Key="Q" Modifiers="Ctrl" Command="{Binding ShowWindowCommand}"/>
+	</Window.InputBindings>
+	<Window.DataContext>
+		<vm:MainViewModel/>
+	</Window.DataContext>
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="Открыть"/>
+			<MenuItem Header="Закрыть"/>
+		</Menu>
+		<StatusBar DockPanel.Dock="Bottom">
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="{Binding ProgressString}"/>
+				<ProgressBar Height="14" Value="{Binding ProgressValue}" Width="200" Margin="5 0 0 0"/>
+			</StackPanel>
+		</StatusBar>
+		<TabControl>
+			<TabItem>
+				<TabItem.Header>
+					<StackPanel Orientation="Horizontal">
+						<fa:ImageAwesome Icon="Brands_Bitcoin" Height="12" Margin="0 3 5 5" Foreground="Green"/>
+						<TextBlock Text="Список"/>
+					</StackPanel>
+				</TabItem.Header>
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<GroupBox Grid.Column="0" FontSize="20" Header="Список людей">
+						<DataGrid SelectedItem="{Binding SelectedPerson}" FontSize="20" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding Persons}" Margin="0,-2,0,2">
+							<DataGrid.Columns>
+								<DataGridTextColumn Header="ID" Binding="{Binding ID}"/>
+								<DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+								<DataGridTextColumn Header="Age" Binding="{Binding Age}"/>
+								<DataGridTextColumn Header="SurName" Binding="{Binding SurName}" Width="*"/>
+							</DataGrid.Columns>
+						</DataGrid>
+					</GroupBox>
+					<StackPanel Grid.Column="1">
+						<TextBlock Text="Редактор списка"
+								   TextAlignment="Center"
+								   Margin="10"
+								   FontSize="30"/>
+						<UniformGrid Rows="1" Columns="2">
+							<Button Style="{StaticResource ButtonCreate}" Command="{Binding CreateNewPersonCommand}"/>
+							<Button Style="{StaticResource ButtonDelete}" Command="{Binding DeletePersonCommand}"/>
+						</UniformGrid>
+						<Frame Content="{Binding CurrentPage}"/>
+						<Button Content="Обновить"
+								Style="{StaticResource DefaultButton}"
+								Width="130"
+								Command="{Binding RestartCommand}"/>
+					</StackPanel>
+				</Grid>
+			</TabItem>
+		</TabControl>
+	</DockPanel>
+</Window>
